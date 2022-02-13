@@ -10,6 +10,14 @@ const router = express.Router();
 
 bodyParser.urlencoded({ extended: false });
 
+// auth with google+
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+
 // This is the route for initiating the OAuth flow to Facebook
 router.get("/facebook", passport.authenticate("facebook", { scope: "email" }));
 

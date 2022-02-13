@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS file -->
+    <link rel="stylesheet" href="/css/signin.css">
+    <!-- Font Awesome 5 CDN link to add social icons in html5 registration form -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+ 
+</head>
+ 
+<body>
+      
+    <div class="container">
+        <dive class="formWraper">
+ 
+            <!-- Left section of responsive registration form -->
+ 
+            <div class="formDiv">
+                <h2>Sign In</h2>
+                <p class="text"></p>
+                <form method="POST" action="/signin">
+             <!-- Font Awesome Icons -->
+                <div class="socialBtn">
+                    <div onclick="facebookAuth()" class="facebook icon"><i class="fab fa-facebook-f"></i></div>
+                    <div onclick="googleAuth()" class="google icon"><i class="fab fa-google"></i></i></div>
+                </div>
+                 
+                <!--Horizontal Line-->
+                <hr>
+                <div class="orDiv">Or</div>
+ 
+                <p class="text">Sign In with Email Address</p>
+                
+                <div class="formGroup">
+                    <i class="far fa-envelope"></i>
+                    <input type="email" name="email" id="email" placeholder="Email">
+                </div>
+                <div class="formGroup">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="checkBox">
+                   
+                    <span class="text">Forgot Password?</span>
+                </div>
+                <% if(locals.errors){ %>
+                    <div class="error">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                      <%= locals.errors%>
+                    </div>
+                  <% } %>
+
+                <button type="submit" class="btn">SIGN IN</button>
+            </form>
+                <div class="already-div">
+
+                    <p>New to MovieRank?</p><a href="/signup">SignUp</a>
+                </div>
+            </div>
+            <div class="already">
+            </div>
+ 
+            <!-- Right section of responsive registration form -->
+            <div class="welcomeDiv">
+              
+            </div>
+ 
+        </div>
+    </div>
+    
+    <script>
+
+        function facebookAuth(){
+            window.location="/auth/facebook"
+        }
+
+        function googleAuth(){
+            window.location="/auth/google"
+        }
+
+
+
+
+    </script>
+</body>
+ 
+</html>

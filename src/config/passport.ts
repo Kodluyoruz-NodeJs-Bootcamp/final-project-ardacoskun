@@ -20,6 +20,14 @@ passport.deserializeUser((id: number, done) => {
   });
 });
 
+// Function for generating jwt tokens
+export const generateJwtToken = (user: any) => {
+  const token = jwt.sign({ id: user.id, email: user.email }, "arda123", {
+    expiresIn: "7d",
+  });
+  return token;
+};
+
 //Strategy of Google Auth
 passport.use(
   new GoogleStrategy(strategyOptions.googleOptions, verifyGoogleCallback)
