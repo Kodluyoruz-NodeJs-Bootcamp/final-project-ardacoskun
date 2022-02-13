@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import authRoute from "./routes/authRoute";
 import homeRoute from "./routes/homeRoute";
 import movieRoute from "./routes/movieRoute";
+import starRoute from "./routes/starRoute";
+
 import { authCheck } from "./middlewares/profileMiddleware";
 
 createConnection();
@@ -32,6 +34,7 @@ app.set("view engine", "ejs");
 app.use("/auth", authRoute);
 app.use(homeRoute);
 app.use(movieRoute);
+app.use(starRoute);
 
 app.get("/", authCheck, (req: Request, res: Response) => {
   res.redirect("/movies");
