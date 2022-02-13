@@ -85,3 +85,19 @@ export const loginUser = async (req: Request, res: Response) => {
     res.render("signin", { errors: error });
   }
 };
+
+//Create password to local login if user signed up with google or facebook before.
+export const choosePassword = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const isUser = await User.findOne({ email });
+  try {
+    isUser.password = password;
+    isUser.hashPassword();
+    await isUser.save();
+
+    return res.status(200).redirect("/signin");
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
