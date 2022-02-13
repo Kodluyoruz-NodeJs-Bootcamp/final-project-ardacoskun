@@ -6,6 +6,7 @@ import {
   facebookRedirect,
   googleRedirect,
 } from "../middlewares/authMiddleware";
+
 const router = express.Router();
 
 bodyParser.urlencoded({ extended: false });
