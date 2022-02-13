@@ -41,8 +41,10 @@ app.use("/mylists", listRoute);
 app.get("/", authCheck, (req: Request, res: Response) => {
   res.redirect("/movies");
 });
-app.get("/login", (req: Request, res: Response) => {
-  res.render("login");
+
+//404 Page route
+app.get("*", function (req: Request, res: Response) {
+  res.status(404).render("404");
 });
 
 const PORT = process.env.PORT || 3000;

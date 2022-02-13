@@ -1,0 +1,41 @@
+<div class="header">
+  <div class="header__left" onclick="toHome()">
+    <img
+      src="./img/dv6y2019455732019-11-272601990FilmChair-removebg-preview.png"
+      alt=""
+      class="logo-img"
+    />
+    <p>MovieRank</p>
+  </div>
+
+  <div class="header__right">
+    <a class="headerOption" href="/movies">
+      <i class="material-icons headerOption__icon">movie </i>
+      <h3>Movies</h3>
+    </a>
+    <a class="headerOption" href="/stars">
+      <i class="material-icons headerOption__icon"> star</i>
+      <h3>Stars</h3>
+    </a>
+
+    <a class="headerOption" href="/myLists">
+      <i class="material-icons headerOption__icon"> view_list</i>
+      <h3>MyLists</h3>
+    </a>
+
+    <a class="headerOption" href="/me">
+      <i class="material-icons headerOption__icon"> account_circle </i>
+      <h3>Profile</h3>
+    </a>
+
+    <a class="headerOption" href="/auth/logout">
+      <i class="material-icons headerOption__icon"> logout </i>
+      <h3>Logout</h3>
+    </a>
+  </div>
+  <script>
+    function toHome() {
+      window.location = "/";
+    }
+  </script>
+</div>
