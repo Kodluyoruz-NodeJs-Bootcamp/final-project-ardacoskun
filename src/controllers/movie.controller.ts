@@ -199,3 +199,73 @@ export const deleteLike = async (req: Request, res: Response) => {
     throw new Error(error as string);
   }
 };
+
+//UpdateMovie
+export const updateMovie = async (req: Request, res: Response) => {
+  const movieId = Number(req.params.id);
+  const user = req.user as User;
+  let { name, description, published, tag } = req.body;
+  try {
+    const uploadDir = "public/uploads";
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
+
+    const imageName = req.files?.image["name"];
+    const image = req.files?.image["data"];
+    published ? (published = true) : (published = false);
+
+    //This pile works for if user's change movie image or not.If movie image does not change db keeps the old one.
+    if (image === undefined) {
+      await Movie.createQueryBuilder()
+
+        .update(Movie)
+        .set({
+          name,
+          description,
+          published,
+          tag,
+        })
+        .where("movies.id=:movieId", { movieId })
+        .execute();
+      return res.redirect("/movies");
+    } else {
+      fs.writeFileSync(uploadDir + "/" + imageName, image);
+      const imageurl = "/uploads/" + imageName;
+
+      console.log(imageurl);
+
+      await Movie.createQueryBuilder()
+
+        .update(Movie)
+        .set({
+          image: imageurl,
+          name,
+          description,
+          published,
+          tag,
+        })
+        .where("movies.id=:movieId", { movieId })
+        .execute();
+    }
+    res.redirect("/movies");
+  } catch (error) {
+    console.log(error);
+    throw new Error(error as string);
+  }
+};
+
+//Delete Movie
+export const deleteMovie = async (req: Request, res: Response) => {
+  try {
+    await Movie.createQueryBuilder()
+      .delete()
+      .where("id=:id", { id: req.params.id })
+      .execute();
+
+    res.status(200).redirect("/movies");
+  } catch (error) {
+    console.log("Like hatası");
+    throw new Error(error as string);
+  }
+};

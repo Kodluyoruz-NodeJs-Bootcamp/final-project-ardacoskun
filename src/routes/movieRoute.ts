@@ -5,8 +5,10 @@ import {
   createMovie,
   deleteComment,
   deleteLike,
+  deleteMovie,
   getMovies,
   likeMovie,
+  updateMovie,
 } from "../controllers/movie.controller";
 import { authCheck } from "../middlewares/profileMiddleware";
 
@@ -27,5 +29,11 @@ router.get("/movies/like/:id/:src", authCheck, likeMovie);
 
 //Delete like from Movie
 router.delete("/movies/delete-like/:id/:src/", authCheck, deleteLike);
+
+//UpdateMovie
+router.put("/movies/update/:id/", authCheck, updateMovie);
+
+//Delete Movie
+router.delete("/movies/delete/:id/", authCheck, deleteMovie);
 
 export default router;
