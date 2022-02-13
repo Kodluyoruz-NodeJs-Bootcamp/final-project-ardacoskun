@@ -34,6 +34,8 @@ export const createUser = async (req: Request, res: Response) => {
     user.password = password;
     user.provider = "local";
 
+    //Call password hashing function from User model.
+    await user.hashPassword();
     await user.save();
     const token = generateJwtToken(user);
 
@@ -47,5 +49,39 @@ export const createUser = async (req: Request, res: Response) => {
   } catch (error) {
     console.log("createUser hatası ");
     throw new Error(error as string);
+  }
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const oldUser = await User.findOne({ email });
+  console.log("old user", oldUser);
+
+  if (oldUser && oldUser.password === null) {
+    return res.redirect("/create-password");
+  }
+
+  //Get current browser info
+  const userAgent = req.headers["user-agent"] as string;
+
+  let user = new User();
+
+  try {
+    //Call login and create token functions from User model
+
+    const loggedIn = await user.findByCredentials(email, password);
+    const token = generateJwtToken(loggedIn);
+
+    //send cookie
+    res.cookie("jwt", token, {
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+
+    return res.status(200).redirect("/movies");
+  } catch (error) {
+    console.log("error", error);
+    res.render("signin", { errors: error });
   }
 };
