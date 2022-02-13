@@ -6,6 +6,12 @@ import { IUser } from "../interfaces/user.interface";
 
 express.Router();
 
+// auth logout
+export const logout = (req: Request, res: Response) => {
+  res.clearCookie("jwt");
+  res.redirect("/");
+};
+
 export const facebookRouter = passport.authenticate("facebook", {
   failureRedirect: "/signin",
 });

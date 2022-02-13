@@ -1,7 +1,11 @@
 import express from "express";
 import passport from "passport";
 import bodyParser from "body-parser";
-import { facebookRouter, googleRouter } from "../controllers/auth.controller";
+import {
+  facebookRouter,
+  googleRouter,
+  logout,
+} from "../controllers/auth.controller";
 import {
   facebookRedirect,
   googleRedirect,
@@ -10,6 +14,9 @@ import {
 const router = express.Router();
 
 bodyParser.urlencoded({ extended: false });
+
+// auth logout
+router.get("/logout", logout);
 
 // auth with google+
 router.get(
