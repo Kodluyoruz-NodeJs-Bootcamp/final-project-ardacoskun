@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+} from "typeorm";
 import bcrypt from "bcryptjs";
+import { Movie } from "./Movies";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
@@ -26,6 +33,9 @@ export class User extends BaseEntity {
 
   @Column({ nullable: false })
   provider: string;
+
+  @OneToMany(() => Movie, (movies) => movies.user)
+  movies: Movie[];
 
   //Password hash function
   async hashPassword() {
