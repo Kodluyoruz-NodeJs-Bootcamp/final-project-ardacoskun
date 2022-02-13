@@ -47,7 +47,7 @@ body {
   color: #fff;
 }
 .header__left p {
-  margin-left: -20px;
+  margin-left: -10px;
 }
 .header__right {
   display: flex;

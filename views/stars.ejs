@@ -199,15 +199,29 @@
                 
                 <%  } %>
               </div>
+
+  
+              <div class="inputOption">
+        
+                <% if(stars[i].comments.length !== 0){ %>
+                  <a href="/stars/<%=stars[i].id %>">
+                  <i style="color: #0177b7" class="material-icons"> comment </i>
+                </a>
+                  
+                <h4 style="color: #0177b7"><%=stars[i].comments.length %></h4>
+                <% }else{ %>
+                  <a href="/stars/<%=stars[i].id %>">
+                    <i style="color: gray" class="material-icons"> comment </i>
+                  </a>
+                    
+                 
+              <%  } %>
+              </div>
+
+
+              
             
-            <div class="inputOption">
-              <a href="/stars/<%=stars[i].id %>">
-                <i style="color: gray" class="material-icons"> comment </i>
-              </a>
-              <% if(stars[i].comments.length !== 0){ %>
-              <h4><%=stars[i].comments.length %></h4>
-              <% } %>
-            </div>
+            
 
             <div class="inputOption">
               <i style="color: gray" class="material-icons"> add </i>

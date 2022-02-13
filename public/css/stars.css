@@ -1,13 +1,10 @@
 * {
   margin: 0;
   padding: 0;
-  /* font-family: "Dosis", sans-serif; */
   font-family: "Poppins", sans-serif;
 }
 
 body {
-  /* background-color: #36393f; */
-  /* background-color: #3f468e; */
   background-color: #171717;
   display: flex;
   flex-direction: column;
@@ -47,7 +44,7 @@ body {
   color: #fff;
 }
 .header__left p {
-  margin-left: -20px;
+  margin-left: -10px;
 }
 .header__right {
   display: flex;
