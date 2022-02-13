@@ -142,3 +142,126 @@ export const deleteComment = async (req: Request, res: Response) => {
     throw new Error(error as string);
   }
 };
+
+//Like Star
+export const likeStar = async (req: Request, res: Response) => {
+  const starId = Number(req.params.id);
+  const user = req.user as User;
+
+  try {
+    const currentStar = await Star.findOne({ id: starId });
+
+    const starLike = StarLikes.create({
+      owner: user.id.toString(),
+      star: currentStar,
+    });
+
+    await StarLikes.save(starLike);
+    if (req.params.src == "home") {
+      return res.redirect("/stars");
+    } else {
+      return res.redirect(`/stars/${starId}`);
+    }
+  } catch (error) {
+    console.log("Like hatası");
+    throw new Error(error as string);
+  }
+};
+
+//Delete star like
+export const deleteLike = async (req: Request, res: Response) => {
+  const starId = Number(req.params.id);
+  const user = req.user as User;
+
+  try {
+    const starLike = await StarLikes.createQueryBuilder("star_likes")
+      .leftJoinAndSelect("star_likes.star", "star")
+      .where("star_likes.owner=:userId", { userId: user.id })
+      .andWhere("star_likes.star=:starId", { starId })
+      .getOne();
+
+    const deleteId = starLike.id;
+
+    const deleteLike = await StarLikes.findOne({ id: deleteId });
+    await StarLikes.remove(deleteLike);
+
+    //Checks which page user liked the star and redirects user according to that info.
+
+    if (req.params.src == "home") {
+      return res.redirect("/stars");
+    } else {
+      return res.redirect(`/stars/${starId}`);
+    }
+  } catch (error) {
+    console.log("Like hatası");
+    throw new Error(error as string);
+  }
+};
+
+//UpdateStar
+export const updateStar = async (req: Request, res: Response) => {
+  const starId = Number(req.params.id);
+  const user = req.user as User;
+  let { name, description, published, gender } = req.body;
+  try {
+    const uploadDir = "public/uploads";
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
+
+    const imageName = req.files?.image["name"];
+    const image = req.files?.image["data"];
+    published ? (published = true) : (published = false);
+
+    //This pile works for if user's change star image or not.If star image does not change db keeps the old one.
+    if (image === undefined) {
+      await Star.createQueryBuilder()
+
+        .update(Star)
+        .set({
+          name,
+          description,
+          published,
+          gender,
+        })
+        .where("stars.id=:starId", { starId })
+        .execute();
+      return res.redirect("/stars");
+    } else {
+      fs.writeFileSync(uploadDir + "/" + imageName, image);
+      const imageurl = "/uploads/" + imageName;
+
+      await Star.createQueryBuilder()
+
+        .update(Star)
+        .set({
+          image: imageurl,
+          name,
+          description,
+          published,
+          gender,
+        })
+        .where("stars.id=:starId", { starId })
+        .execute();
+    }
+    res.redirect("/stars");
+  } catch (error) {
+    console.log(error);
+    throw new Error(error as string);
+  }
+};
+
+//Delete Star
+export const deleteStar = async (req: Request, res: Response) => {
+  try {
+    await Star.createQueryBuilder()
+      .delete()
+      .where("id=:id", { id: req.params.id })
+      .execute();
+
+    res.redirect("/stars");
+  } catch (error) {
+    console.log("Like hatası");
+    throw new Error(error as string);
+  }
+};
