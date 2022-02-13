@@ -1,0 +1,171 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/singleStar.css" />
+    <title>MovieRank</title>
+  </head>
+  <body>
+    <!-- Header Starts -->
+    <%- include('partials/_header') -%>
+    <!-- Header Ends -->
+
+    <!-- Main Body Starts -->
+    <div class="body__main">
+      <!-- Feed Starts -->
+      <div class="feed">
+        <div class="feed__inputContainer">
+          <div class="sidebar__top">
+            <div class="near-image-div">
+
+              <img class="profile-image" src="<%=star.image %>"></img>
+              <div class="profile-text">
+                <div class="movie-name">
+
+                  <h2><%=star.name%></h2>
+              
+                </div>
+                <h4><%=star.gender%></h4>
+              </div>
+          
+
+            </div>
+            <div class="description-movie">
+
+              <h5><%=star.description%></h5>
+            </div>
+            
+            <div class="update-button-div">
+              <div class="inputOption"> 
+                <% if (myLikes.includes(star.id)) { %>
+             
+                  <a href="/stars/delete-like/<%=star.id %>/star/?_method=DELETE"
+                    class="makeRed">
+                  <i class="material-icons makeRed" > favorite </i>
+                </a>
+  
+                <% if (star.likes.length !==0) { %>
+                <h4 class="makeRed"><%=star.likes.length%></h4>
+                <%} %> 
+                
+                <%}else{ %>  
+                  
+                  <a href="/stars/like/<%=star.id %>/star" class="makeRed">
+                    <i class="material-icons "> favorite_border </i>
+                  </a>
+                  
+                  
+                  <% if (star.likes.length !==0) { %>
+                    <h4><%=star.likes.length%></h4>
+                    <%} %> 
+                  
+                  <%  } %>
+                </div>
+                
+          <div class="inputOption">
+            <a href="/stars/<%=star.id%>">
+              <i style="color: gray" class="material-icons"> comment </i>
+            </a>
+            <% if(star.comments.length !== 0){ %>
+            <h4><%=star.comments.length %></h4>
+            <% } %>
+          </div>
+            
+              <% if (star.user.id === currentUser.id){ %>
+
+              <a class="update-button" href="/stars/update/<%=star.id %>"
+                >Update Star
+              </a>
+
+              <a
+                class="delete-button"
+                href="/stars/delete/<%=star.id %>/?_method=DELETE"
+              >
+                Delete Star
+              </a>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="comment-box">
+            <form
+              action="/stars/<%=star.id %>"
+              method="POST"
+              id="commentForm"
+            >
+              <textarea
+                id="commentBox"
+                cols="10"
+                rows="10"
+                name="commentField"
+                onkeyup="commentIsEmpty()"
+                placeholder="Type your comment..."
+              ></textarea>
+
+              <div class="comment-form-buttons">
+                <div class="inputToggle">
+                  <label class="switch">
+                    <input type="checkbox" name="spoiler" />
+                    <span class="slider round"></span>
+                  </label>
+                  <h3 class="spoiler-tag">Spoiler</h3>
+                </div>
+                <button type="submit" id="submitBtn" disabled>Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <% for(let i=0;i < star.comments.length ;i++){ %>
+        <div class="post">
+          <div class="post__header">
+            <div class="post__info">
+              <i class="material-icons sidebar__topAvatar"> account_circle </i>
+              <h2><%=star.comments[i].writer %></h2>
+            </div>
+            <div class="comment-buttons">
+              <% if(star.comments[i].spoiler){ %>
+
+              <i class="material-icons spoiler-alert" title="Spoiler Alert">
+                info
+              </i>
+              <% } %> <% if(star.comments[i].writer == currentUser.email){ %>
+
+              <a
+                href="/stars/delete-comment/<%=star.comments[i].id%>/<%=star.id %>?_method=DELETE"
+                class="material-icons outlined"
+              >
+                delete
+              </a>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="post__body">
+            <p><%=star.comments[i].text %></p>
+          </div>
+        </div>
+
+        <% } %>
+      </div>
+    </div>
+    <!-- Main Body Ends -->
+
+
+    <script src="/js/script.js"></script>
+  </body>
+</html>

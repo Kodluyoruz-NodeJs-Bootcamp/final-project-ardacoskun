@@ -1,0 +1,128 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    /> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/updateStar.css" />
+    <title>MovieRank</title>
+  </head>
+  <body>
+    <!-- Header Starts -->
+    <%- include('partials/_header') -%>
+    <!-- Header Ends -->
+
+    <!-- Main Body Starts -->
+    <div class="body__main">
+      <!-- Feed Starts -->
+      <div class="feed">
+        
+        <div class="feed__inputContainer">
+         
+          <div class="sidebar__top">
+            
+       
+            <div class="near-image-div">
+              <div class="profile-text">
+           
+                  <form class="feed-form" action="/stars/update/<%=star.id %>/?_method=PUT" method="POST" enctype="multipart/form-data" >
+                    <div class="uploader">
+                        <input id="file-upload" type="file" name="image" accept="image/*" value=""/>
+                  
+                        <label for="file-upload" id="file-drag">
+                          <img id="file-image" src="" alt="Preview" class="hidden"/>
+                          <div id="start">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            <div>Select a file or drag here</div>
+                            <div id="notimage" class="hidden">Please select an image</div>
+                            <span id="file-upload-btn" class="btn btn-primary"
+                              >Select a file</span
+                            >
+                          </div>
+                          <div id="response" class="hidden">
+                            <div id="messages"></div>
+                           
+                          </div>
+                        </label>
+                      </div>
+                    
+                    <div class="feed__input add-name">
+                      <i class="material-icons"> create </i>
+                      <input type="text" value="<%=star.name %>" name="name" id="movieName" onkeyup="isEmpty()"/>
+                    </div>
+                    <div class="feed__input add-name">
+                      <i class="material-icons"> tag </i>
+                      <input type="text" value="<%=star.gender %>"  name="gender" id="movieTag" onkeyup="isEmpty()"/>
+                    </div>
+                    <div class="feed__input">
+                      <i class="material-icons subject"> subject </i>
+                      <input
+                        type="text"
+                        class="update-box"
+                        name="description"
+                        id="movieDescription" onkeyup="isEmpty()"
+                        value="<%=star.description %>"
+                      />
+                    </div>
+
+                    <div class="feed__inputOptions">
+                    
+                      <div class="update-button-div">
+                        <div class="inputToggle">
+                          <label class="switch">
+                            <input type="checkbox" checked name="published" value="<%=star.published %>"/>
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+                     
+                        <button type="submit" class="inputOption" id="postBtn" disabled>
+                          <i style="color: #fff" class="material-icons send-i">
+                            send
+                          </i>
+                          <h4>Post</h4>
+                        </button>
+  
+                      </div>
+                      
+                          
+                      </div>
+               
+                  </form>
+                </div>
+              </div>
+
+              
+                
+
+                </form>
+               
+          
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main Body Ends -->
+    <script src="/js/script.js"></script>
+    <script src="/js/script2.js"></script>
+ 
+  </body>
+</html>
