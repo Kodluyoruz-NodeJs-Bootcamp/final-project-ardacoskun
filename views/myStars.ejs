@@ -1,0 +1,203 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    /> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/myLists.css" />
+    <title>MovieRank</title>
+  </head>
+  <body>
+    <!-- Header Starts -->
+    <%- include('partials/_header') -%>
+    <!-- Header Ends -->
+
+    <!-- Main Body Starts -->
+    <div class="body__main">
+      <!-- Sidebar Starts -->
+
+      <div class="widgets">
+        <div class="widgets__header">
+          <h2>My Movie History</h2>
+          <i class="material-icons"> info </i>
+        </div>
+        <a class="widgets__article" href="/myLists">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>My Movies</h4>
+            <p>List</p>
+          </div>
+        </a>
+        <a class="widgets__article" href="/myLists/liked-movies">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>Liked Movies</h4>
+            <p>List</p>
+          </div>
+        </a>
+        <a class="widgets__article" href="/myLists/commented-movies">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>Commented Movies</h4>
+            <p>List</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Sidebar Ends -->
+
+      <!-- Feed Starts -->
+      <div class="feed">
+        <!-- Post Starts -->
+
+        <% if(currentStars.length==0){ %>
+        <div class="post">
+          <div class="post__header">
+            <!-- <i class="material-icons sidebar__topAvatar"> account_circle </i> -->
+
+            <div class="post__info">
+              <div class="post-description">
+                <h2>You haven't add any stars yet.</h2>
+
+                <p class="quote">
+                  “It’s not who I am underneath, but what I do that defines me.”
+                </p>
+                <p class="quote-movie">- Batman Begins, 2005</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% } %> <% for(let i=0; i< currentStars.length;i++){ %>
+        <div class="post">
+          <div class="post__header">
+            <!-- <i class="material-icons sidebar__topAvatar"> account_circle </i> -->
+            <div class="img-container">
+              <img
+                src="<%=currentStars[i].image %>"
+                class="content-image"
+                alt="avatar"
+              />
+            </div>
+            <div class="post__info">
+              <h2><%=currentStars[i].name %></h2>
+              <p><%=currentStars[i].gender %></p>
+
+              <div class="post-description">
+                <p class="pharagraphs"><%=currentStars[i].description %></p>
+
+                <button class="readmore" onclick="readMore(this)">
+                  Read More
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="feed__inputOptions">
+            <div class="inputOption">
+              <% if (myLikes.includes(currentStars[i].id)) { %>
+              <a href="/stars/<%=currentStars[i].id %>" class="makeRed">
+                <i class="material-icons makeRed"> favorite </i>
+              </a>
+              <% if (currentStars[i].likes.length !==0) { %>
+
+              <h4 class="makeRed"><%=currentStars[i].likes.length %></h4>
+              <%} %> <%}else{ %>
+              <a href="/stars/<%=currentStars[i].id %>" style="color: gray">
+                <i class="material-icons"> favorite_outlined </i>
+              </a>
+
+              <% if (currentStars[i].likes.length !==0) { %>
+              <h4 style="color: gray"><%=currentStars[i].likes.length%></h4>
+              <%} %> <% } %>
+            </div>
+
+            <div class="inputOption">
+              <% if(currentStars[i].comments.length !== 0){ %>
+              <a href="/stars/<%=currentStars[i].id %>">
+                <i style="color: #0177b7" class="material-icons"> comment </i>
+              </a>
+
+              <h4 style="color: #0177b7">
+                <%=currentStars[i].comments.length %>
+              </h4>
+              <% }else{ %>
+              <a href="/stars/<%=currentStars[i].id %>">
+                <i style="color: gray" class="material-icons"> comment </i>
+              </a>
+
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <%}%>
+        <!-- Post Ends -->
+      </div>
+      <!-- Feed Ends -->
+
+      <!-- Widgets Starts -->
+      <div class="widgets">
+        <div class="widgets__header">
+          <h2>My Star History</h2>
+          <i class="material-icons"> info </i>
+        </div>
+        <a class="widgets__article current" href="/myLists/stars">
+          <div class="widgets__articleLeft">
+            <i class="material-icons current"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight current">
+            <h4>My Stars</h4>
+            <p>List</p>
+          </div>
+        </a>
+        <a class="widgets__article" href="/myLists/liked-stars">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>Liked Stars</h4>
+            <p>List</p>
+          </div>
+        </a>
+        <a class="widgets__article" href="/myLists/commented-stars">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>Commented Stars</h4>
+            <p>List</p>
+          </div>
+        </a>
+      </div>
+      <!-- Widgets Ends -->
+    </div>
+    <!-- Main Body Ends -->
+
+    <script src="/js/script.js"></script>
+  </body>
+</html>

@@ -6,6 +6,5 @@
   "password": "02122000",
   "database": "movierank",
   "entities": ["src/entity/*.ts"],
-  "logging": true,
   "synchronize": true
 }
