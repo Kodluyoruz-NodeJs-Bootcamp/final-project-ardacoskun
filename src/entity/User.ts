@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import bcrypt from "bcryptjs";
 import { Movie } from "./Movies";
+import { Star } from "./Stars";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
@@ -36,6 +37,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Movie, (movies) => movies.user)
   movies: Movie[];
+
+  @OneToMany(() => Star, (stars) => stars.user)
+  stars: Star[];
 
   //Password hash function
   async hashPassword() {

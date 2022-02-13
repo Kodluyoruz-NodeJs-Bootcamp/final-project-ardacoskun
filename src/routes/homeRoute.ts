@@ -4,8 +4,14 @@ import {
   createUser,
   loginUser,
 } from "../controllers/auth.controller";
-import { localRegister, localSignIn } from "../controllers/home.controller";
+import {
+  getMoviePage,
+  getMovieUpdatePage,
+  localRegister,
+  localSignIn,
+} from "../controllers/home.controller";
 import { loggedinCheck } from "../middlewares/loggedinCheck";
+import { authCheck } from "../middlewares/profileMiddleware";
 import {
   changePasswordValidator,
   checkChangePassword,
@@ -33,5 +39,11 @@ router.post(
   checkChangePassword,
   choosePassword
 );
+
+//Get single movie page
+router.get("/movies/:id", authCheck, getMoviePage);
+
+// Movie Update Page Render
+router.get("/movies/update/:id", authCheck, getMovieUpdatePage);
 
 export default router;
