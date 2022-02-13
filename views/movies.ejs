@@ -1,0 +1,294 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+   
+
+   <link rel="stylesheet" href="/css/movies.css">
+
+    <!-- Google Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    
+    <title>MovieRank</title>
+  </head>
+  <body>
+    <!-- Header Starts -->
+    <%- include('partials/_header') -%>
+    <!-- Header Ends -->
+
+
+
+    <!-- Main Body Starts -->
+    <div class="body__main">
+     
+      <!-- Sidebar Starts -->
+      <div class="sidebar">
+        <div class="sidebar__top">
+         
+               
+          <% if(user.thumbnail){ %>
+            <img src="<%= user.thumbnail %>" alt="avatar">
+
+          <% }else{ %>
+
+  <img src="/css/img/83496ac248c0b3fc22a70c74e8c75746.png" alt="avatar">
+  <% } %>
+          <h2><%= user.fullName %></h2>
+          <h4><%=user.email %></h4>
+
+          <div class="sidebar__stat">
+            <p>Your Movies:</p>
+
+            <p class="sidebar__statNumber"><%=currentUser.length %></p>
+          </div>
+
+          <div class="sidebar__stat">
+            <p>Movies you liked:</p>
+            <p class="sidebar__statNumber"><%=myLikes.length %></p>
+          </div>
+        </div>
+      </div>
+      <!-- Sidebar Ends -->
+
+      <!-- Feed Starts -->
+      <div class="feed">
+        <div class="feed__inputContainer">
+          <form class="feed-form" method="POST" action="/createMovie" enctype="multipart/form-data">
+         <div class="new">
+
+           <div class="feed__input add-name">
+             <i class="material-icons"> create </i>
+             <input type="text" placeholder="Movie Name" name="movieName" id="movieName" onkeyup="isEmpty()"/> 
+            </div>
+                <div class="inputOption image-upload">
+             
+            <label class="modal-btn" for="modal-toggle"><i style="color: #70b5f9" class="material-icons modal-btn">
+              insert_photo
+            </i></label>
+            
+                
+              </div>
+          
+
+          </div>
+            <div class="feed__input add-name">
+              <i class="material-icons"> tag </i>
+              <input type="text" placeholder="Movie Genre" name="movieTag" id="movieTag" onkeyup="isEmpty()" />
+            </div>
+            <div class="feed__input">
+              <i class="material-icons"> subject </i>
+              <input
+                type="text"
+                placeholder="Movie Description"
+                name="movieDescription"
+                id="movieDescription" onkeyup="isEmpty()"
+              />
+            </div>
+           
+            <div class="feed__inputOptions">
+              <div class="inputToggle">
+                <label class="switch">
+                  <input type="checkbox" checked name="published" />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+             
+          
+                  
+              <div class="modal-container">
+                <input id="modal-toggle" type="checkbox" />
+                
+           
+              
+                <label class="modal-backdrop" for="modal-toggle"></label>
+                <div class="modal-content">
+                  <label class="modal-close" for="modal-toggle">&#x2715;</label>
+                  <div class="center-image">
+                    <div class="form-input-image">
+                      <div class="preview-image">
+                        <img id="file-ip-1-preview" />
+                      </div>
+                      <label for="file-ip-1">Select</label>
+                      <input
+                        type="file"
+                        id="file-ip-1"
+                        name="image"
+                        value=""
+                        accept="image/*"
+                        onchange="showPreview(event);"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+ 
+              <button type="submit" class="inputOption" id="postBtn" disabled>
+                <i style="color: #fff" class="material-icons send-i"> send </i>
+                <h4>Post</h4>
+              </button>
+            </div>
+          </form>
+        
+        </div>
+
+        <!-- Post Starts -->
+  
+
+        <% for(let i=0;i< movies.length;i++){ %>
+
+        <div class="post">
+        
+          <div class="post__header">
+            <!-- <i class="material-icons sidebar__topAvatar"> account_circle </i> -->
+           <div class="img-container">
+
+
+             <% if(movies[i].image){ %>
+              <img src="<%=movies[i].image %>" class="content-image"></img>
+              
+              <% } %>
+            </div>
+          
+          <div class="post__info">
+              <h2><%=movies[i].name %></h2>
+              <p><%=movies[i].user.email %></p>
+              <h5><%=movies[i].tag %></h5>
+
+              
+              <div class="post-description">
+
+                <p class="pharagraphs"><%=movies[i].description %></p>
+                <button class="readmore" onclick="readMore(this)">Read More</button>
+              </div>
+            </div>
+          </div>
+
+         
+      
+
+          <div class="feed__inputOptions">
+            <div class="inputOption"> 
+              <% if (myLikes.includes(movies[i].id)) { %>
+           
+                <a href="/movies/delete-like/<%=movies[i].id %>/home/?_method=DELETE"
+                  class="makeRed">
+                <i class="material-icons makeRed" > favorite </i>
+              </a>
+
+              <% if (movies[i].likes.length !==0) { %>
+              <h4 class="makeRed"><%=movies[i].likes.length%></h4>
+              <%} %> 
+              
+              <%}else{ %>  
+                
+                <a href="/movies/like/<%=movies[i].id %>/home" class="makeRed">
+                  <i class="material-icons "> favorite_border </i>
+                </a>
+                
+                
+                <% if (movies[i].likes.length !==0) { %>
+                  <h4><%=movies[i].likes.length%></h4>
+                  <%} %> 
+                
+                <%  } %>
+              </div>
+            
+            <div class="inputOption">
+        
+              <% if(movies[i].comments.length !== 0){ %>
+              <a href="/movies/<%=movies[i].id %>">
+                <i style="color: #0177b7" class="material-icons"> comment </i>
+              </a>
+                
+              <h4 style="color: #0177b7"><%=movies[i].comments.length %></h4>
+              <% }else{ %>
+                <a href="/movies/<%=movies[i].id %>">
+                  <i style="color: gray" class="material-icons"> comment </i>
+                </a>
+                  
+               
+            <%  } %>
+            </div>
+
+            <div class="inputOption">
+              <i style="color: gray" class="material-icons"> add </i>
+              <h4>Add</h4>
+            </div>
+          </div>
+        </div>
+
+        <% } %>
+      </div>
+      <!-- Feed Ends -->
+
+      <!-- Widgets Starts -->
+      <% if(currentUser.length < 5){ %>
+      <div class="widgets">
+        <div class="widgets__header">
+          <h2>My Latest Movies</h2>
+          <i class="material-icons"> info </i>
+        </div>
+
+        <% for(let i=0;i < currentUser.length ; i++){ %>
+
+        <div class="widgets__article">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <a href="/movies/<%=currentUser[i].id %>"
+              ><%=currentUser[i].name %></a
+            >
+            <p><%=currentUser[i].tag %></p>
+          </div>
+        </div>
+
+        <% } %>
+      </div>
+      <% } %> <% if(currentUser.length >= 5){ %>
+      <div class="widgets">
+        <div class="widgets__header">
+          <h2>My Latest Movies</h2>
+          <i class="material-icons"> info </i>
+        </div>
+
+        <% for(let i=0;i < 5 ; i++){ %>
+
+        <div class="widgets__article">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <a href="/movies/<%=currentUser[i].id %>"
+              ><%=currentUser[i].name %></a
+            >
+            <p><%=currentUser[i].tag %></p>
+          </div>
+        </div>
+
+        <% } %>
+      </div>
+      <% } %>
+      <!-- Widgets Ends -->
+    </div>
+    <!-- Main Body Ends -->
+
+    <script src="/js/script.js">
+    </script>
+    
+  </body>
+</html>
