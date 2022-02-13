@@ -64,48 +64,51 @@
                         </label>
                       </div>
                     
-                    <div class="feed__input add-name">
-                      <i class="material-icons"> create </i>
-                      <input type="text" value="<%=star.name %>" name="name" id="movieName" onkeyup="isEmpty()"/>
-                    </div>
-                    <div class="feed__input add-name">
-                      <i class="material-icons"> tag </i>
-                      <input type="text" value="<%=star.gender %>"  name="gender" id="movieTag" onkeyup="isEmpty()"/>
-                    </div>
-                    <div class="feed__input">
-                      <i class="material-icons subject"> subject </i>
-                      <input
-                        type="text"
-                        class="update-box"
-                        name="description"
-                        id="movieDescription" onkeyup="isEmpty()"
-                        value="<%=star.description %>"
-                      />
-                    </div>
-
-                    <div class="feed__inputOptions">
-                    
-                      <div class="update-button-div">
-                        <div class="inputToggle">
-                          <label class="switch">
-                            <input type="checkbox" checked name="published" value="<%=star.published %>"/>
-                            <span class="slider round"></span>
-                          </label>
-                        </div>
-                     
-                        <button type="submit" class="inputOption" id="postBtn" disabled>
-                          <i style="color: #fff" class="material-icons send-i">
-                            send
-                          </i>
-                          <h4>Post</h4>
-                        </button>
+                      <div class="feed__input add-name">
+                        <i class="material-icons"> create </i>
+                        <input type="text" value="<%=star.name %>" name="name" required oninvalid="this.setCustomValidity('Star name is required')"
+                        oninput="this.setCustomValidity('')"/>
+                      </div>
+                      <div class="feed__input add-name">
+                        <i class="material-icons"> tag </i>
+                        <input type="text" value="<%=star.gender %>"  name="gender"  required oninvalid="this.setCustomValidity('Star gender is required')"
+                        oninput="this.setCustomValidity('')"/>
+                      </div>
+                      <div class="feed__input">
+                        <i class="material-icons subject"> subject </i>
+                        <input
+                          type="text"
+                          class="update-box"
+                          name="description"
+                          required
+                          oninvalid="this.setCustomValidity('Star description is required')"
+                        oninput="this.setCustomValidity('')"/>
+                        
+                      </div>
   
-                      </div>
+                      <div class="feed__inputOptions">
                       
-                          
-                      </div>
-               
-                  </form>
+                        <div class="update-button-div">
+                          <div class="inputToggle">
+                            <label class="switch">
+                              <input type="checkbox" checked name="published" value="<%=star.published %>"/>
+                              <span class="slider round"></span>
+                            </label>
+                          </div>
+                       
+                          <button type="submit" class="inputOption" >
+                            <i style="color: #fff" class="material-icons send-i">
+                              send
+                            </i>
+                            <h4>Post</h4>
+                          </button>
+    
+                        </div>
+                        
+                            
+                        </div>
+                 
+                    </form>
                 </div>
               </div>
 
