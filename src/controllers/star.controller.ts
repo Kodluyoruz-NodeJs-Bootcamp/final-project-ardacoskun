@@ -98,3 +98,47 @@ export const createStar = async (req: Request, res: Response) => {
     throw new Error(error as string);
   }
 };
+
+//Add comment to Star
+export const createComment = async (req: Request, res: Response) => {
+  let { commentField } = req.body;
+
+  const starId = Number(req.params.id);
+  const user = req.user as User;
+
+  try {
+    const currentStar = await Star.findOne({ id: starId });
+
+    const starComments = StarComments.create({
+      text: commentField,
+      writerId: user.id.toString(),
+      writer: user.email,
+      star: currentStar,
+    });
+
+    await StarComments.save(starComments);
+    //console.log(StarComment);
+    res.redirect(`/stars/${starId}`);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error as string);
+  }
+};
+
+//Delete star comment
+
+export const deleteComment = async (req: Request, res: Response) => {
+  const starId = req.params.starId;
+
+  try {
+    await StarComments.createQueryBuilder()
+      .delete()
+      .where("id=:id", { id: req.params.id })
+      .execute();
+
+    res.redirect(`/stars/${starId}`);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error as string);
+  }
+};
