@@ -3,6 +3,7 @@ import { createConnection } from "typeorm";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import authRoute from "./routes/authRoute";
+import homeRoute from "./routes/homeRoute";
 createConnection();
 const app = express();
 
@@ -23,7 +24,8 @@ app.set("view engine", "ejs");
 
 //Routes
 
-app.use("/auth");
+app.use("/auth", authRoute);
+app.use(homeRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.render("index");
