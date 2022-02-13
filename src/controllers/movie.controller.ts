@@ -142,3 +142,60 @@ export const deleteComment = async (req: Request, res: Response) => {
     throw new Error(error as string);
   }
 };
+
+//Like Movie
+export const likeMovie = async (req: Request, res: Response) => {
+  const movieId = Number(req.params.id);
+  const user = req.user as User;
+
+  try {
+    const currentMovie = await Movie.findOne({ id: movieId });
+
+    if (!currentMovie) return res.render("404", { title: "movie" });
+
+    const movieLike = MovieLikes.create({
+      owner: user.id.toString(),
+      movie: currentMovie,
+    });
+
+    await MovieLikes.save(movieLike);
+
+    if (req.params.src == "home") {
+      return res.redirect("/movies");
+    } else {
+      return res.redirect(`/movies/${movieId}`);
+    }
+  } catch (error) {
+    console.log("Like hatası");
+    throw new Error(error as string);
+  }
+};
+
+//Delete movie like
+export const deleteLike = async (req: Request, res: Response) => {
+  const movieId = Number(req.params.id);
+  const user = req.user as User;
+
+  try {
+    const movieLike = await MovieLikes.createQueryBuilder("movie_likes")
+      .leftJoinAndSelect("movie_likes.movie", "movie")
+      .where("movie_likes.owner=:userId", { userId: user.id })
+      .andWhere("movie_likes.movie=:movieId", { movieId })
+      .getOne();
+
+    const deleteId = movieLike.id;
+
+    const deleteLike = await MovieLikes.findOne({ id: deleteId });
+    await MovieLikes.remove(deleteLike);
+
+    //Checks which page user liked the movie and redirects user according to that info.
+    if (req.params.src == "home") {
+      return res.redirect("/movies");
+    } else {
+      return res.redirect(`/movies/${movieId}`);
+    }
+  } catch (error) {
+    console.log("Like hatası");
+    throw new Error(error as string);
+  }
+};
