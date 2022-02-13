@@ -1,0 +1,171 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    /> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/myLists.css" />
+    <title>MovieRank</title>
+  </head>
+  <body>
+    <!-- Header Starts -->
+    <%- include('partials/_header') -%>
+    <!-- Header Ends -->
+
+    <!-- Main Body Starts -->
+    <div class="body__main">
+      <!-- Sidebar Starts -->
+
+      <div class="widgets">
+        <div class="widgets__header">
+          <h2>My Movie History</h2>
+          <i class="material-icons"> info </i>
+        </div>
+        <a class="widgets__article" href="/myLists">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>My Movies</h4>
+            <p>List</p>
+          </div>
+        </a>
+        <a class="widgets__article" href="/myLists/liked-movies">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>Liked Movies</h4>
+            <p>List</p>
+          </div>
+        </a>
+        <a class="widgets__article current" href="/myLists/commented-movies">
+          <div class="widgets__articleLeft">
+            <i class="material-icons current"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight current">
+            <h4>Commented Movies</h4>
+            <p>List</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Sidebar Ends -->
+
+      <!-- Feed Starts -->
+      <div class="feed">
+        <!-- Post Starts -->
+        <% if(userComments.length==0){ %>
+        <div class="post">
+          <div class="post__header">
+            <!-- <i class="material-icons sidebar__topAvatar"> account_circle </i> -->
+
+            <div class="post__info">
+              <div class="post-description">
+                <h2>You haven't comment about any movies yet.</h2>
+
+                <p class="quote">
+                  "Look at me. Look at me. I am the captain now."
+                </p>
+                <p class="quote-movie">- Captain Phillips , 2013</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% } %> <% for(let i=0; i< userComments.length;i++){ %>
+
+        <div class="post">
+          <div class="post__header">
+            <!-- <i class="material-icons sidebar__topAvatar"> account_circle </i> -->
+            <div class="img-container">
+              <img
+                src="<%=userComments[i].movie.image %>"
+                class="content-image"
+                alt="avatar"
+              />
+            </div>
+            <div class="post__info">
+              <h2><%=userComments[i].movie.name %></h2>
+              <p><%=userComments[i].movie.tag %></p>
+
+              <div class="post-description">
+                <a
+                  href="/movies/<%=userComments[i].movie.id %>"
+                  class="pharagraphs"
+                  ><%=userComments[i].movie.description %></a
+                >
+
+                <button class="readmore" onclick="readMore(this)">
+                  Read More
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%}%>
+        <!-- Post Ends -->
+      </div>
+      <!-- Feed Ends -->
+
+      <!-- Widgets Starts -->
+      <div class="widgets">
+        <div class="widgets__header">
+          <h2>My Star History</h2>
+          <i class="material-icons"> info </i>
+        </div>
+        <a class="widgets__article" href="/myLists/stars">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>My Stars</h4>
+            <p>List</p>
+          </div>
+        </a>
+        <a class="widgets__article" href="/myLists/liked-stars">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>Liked Stars</h4>
+            <p>List</p>
+          </div>
+        </a>
+        <a class="widgets__article" href="/myLists/commented-stars">
+          <div class="widgets__articleLeft">
+            <i class="material-icons"> fiber_manual_record </i>
+          </div>
+          <div class="widgets__articleRight">
+            <h4>Commented Stars</h4>
+            <p>List</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Widgets Ends -->
+    </div>
+    <!-- Main Body Ends -->
+
+    <script src="/js/script.js"></script>
+  </body>
+</html>

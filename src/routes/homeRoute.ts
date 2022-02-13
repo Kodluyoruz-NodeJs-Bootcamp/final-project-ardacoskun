@@ -7,6 +7,8 @@ import {
 import {
   getMoviePage,
   getMovieUpdatePage,
+  getStarsPage,
+  getStarUpdatePage,
   localRegister,
   localSignIn,
 } from "../controllers/home.controller";
@@ -45,5 +47,11 @@ router.get("/movies/:id", authCheck, getMoviePage);
 
 // Movie Update Page Render
 router.get("/movies/update/:id", authCheck, getMovieUpdatePage);
+
+//Get single star page
+router.get("/stars/:id", authCheck, getStarsPage);
+
+// Star Update Page Render
+router.get("/stars/update/:id", authCheck, getStarUpdatePage);
 
 export default router;
